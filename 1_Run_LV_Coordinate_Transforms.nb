@@ -1,0 +1,603 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     23601,        595]
+NotebookOptionsPosition[     20771,        548]
+NotebookOutlinePosition[     21172,        564]
+CellTagsIndexPosition[     21129,        561]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[StyleBox["Converting Lab Vectors to Equatorial Vectors", \
+"Subsection"]], "Text",
+ CellChangeTimes->{{3.862918547825248*^9, 
+  3.8629185593927565`*^9}},ExpressionUUID->"8a3b7211-11c9-41b7-9fa0-\
+1ae4d659645b"],
+
+Cell["\<\
+A lab vector is characterized by three components, (x, y, z), of course. In \
+the context of this research, the vector of interest is the spatial \
+components (corresponding to the spatial vector) of a \
+meson\[CloseCurlyQuote]s 4-momentum. This is of interest because the \
+CPT-violating terms in the Hamiltonian governing neutral meson oscillations \
+are proportional to the contraction of the meson\[CloseCurlyQuote]s \
+4-momentum with a term containing Lorentz-violating coupling coefficients \
+from valence quarks in a meson.
+In the work below, we attempt to reproduce the transformations from the lab \
+frame to the celestial coordinate system. We perform this calculation to \
+confirm to ourselves that we can in fact reproduce existing results and \
+perhaps apply this technique to make similar measurements in the future.\
+\>", "Text",
+ CellChangeTimes->{{3.8629185816267633`*^9, 3.862918624758234*^9}, {
+  3.8629194774753485`*^9, 3.862919624937188*^9}, {3.8629196590002213`*^9, 
+  3.8629197508133364`*^9}, {3.8629466485382595`*^9, 
+  3.862946774696506*^9}},ExpressionUUID->"0b20dcec-4be6-4377-b4ef-\
+7bb644ee4377"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"RotationMatrixFromEquatorialToLab", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Cos", "[", "\[Chi]", "]"}], 
+        RowBox[{"Cos", "[", 
+         RowBox[{"\[Omega]", " ", "t"}], "]"}]}], ",", 
+       RowBox[{
+        RowBox[{"Cos", "[", "\[Chi]", "]"}], 
+        RowBox[{"Sin", "[", 
+         RowBox[{"\[Omega]", " ", "t"}], "]"}]}], ",", 
+       RowBox[{"-", 
+        RowBox[{"Sin", "[", "\[Chi]", "]"}]}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"Sin", "[", 
+         RowBox[{"\[Omega]", " ", "t"}], "]"}]}], ",", 
+       RowBox[{"Cos", "[", 
+        RowBox[{"\[Omega]", " ", "t"}], "]"}], ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Sin", "[", "\[Chi]", "]"}], 
+        RowBox[{"Cos", "[", 
+         RowBox[{"\[Omega]", " ", "t"}], "]"}]}], ",", 
+       RowBox[{
+        RowBox[{"Sin", "[", "\[Chi]", "]"}], 
+        RowBox[{"Sin", "[", 
+         RowBox[{"\[Omega]", " ", "t"}], "]"}]}], ",", 
+       RowBox[{"Cos", "[", "\[Chi]", "]"}]}], "}"}]}], "}"}]}], ";", 
+  RowBox[{"LabVector", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     SubscriptBox["a", "x"], ",", 
+     SubscriptBox["a", "y"], ",", 
+     SubscriptBox["a", "z"]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CelestialVector", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     SubscriptBox["a", "X"], ",", 
+     SubscriptBox["a", "Y"], ",", 
+     SubscriptBox["a", "Z"]}], "}"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8629183270846376`*^9, 3.8629184776347017`*^9}, {
+  3.8629185125603266`*^9, 3.862918515596325*^9}, {3.862918765604169*^9, 
+  3.8629187746236486`*^9}, {3.862918874468958*^9, 3.8629189146849804`*^9}, {
+  3.862918954594559*^9, 3.8629189801750517`*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"c9c562e5-213b-4644-a788-0c273c7c6f9e"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"RotationMatrixFromLabToEquatorial", "=", 
+   RowBox[{"Transpose", "[", "RotationMatrixFromEquatorialToLab", "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.862918454435687*^9, 3.862918519418019*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"8bea8af6-b537-4884-87ef-51c6dcddc842"],
+
+Cell["\<\
+We need to confirm that the product of the celestial vector with the matrix \
+describing rotation from the celestial coordinate system to the lab \
+coordinate system reproduces Eq. [12] of reference [1]. We do that by \
+performing the matrix-vector product.\
+\>", "Text",
+ CellChangeTimes->{{3.862918780552703*^9, 3.862918844849542*^9}, {
+  3.8629190198258424`*^9, 3.862919023495961*^9}, {3.8629193868851357`*^9, 
+  3.86291940959208*^9}},ExpressionUUID->"1ebc33de-601d-4df2-8cd8-\
+6cc64ecafd8d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"RotationMatrixFromEquatorialToLab", ".", "CelestialVector"}], "//",
+   "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.862918855717293*^9, 3.8629188617302494`*^9}, {
+  3.8629189967827764`*^9, 3.862918999102335*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"1594eff8-831d-47da-b545-c71713b1c4bf"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", 
+   TagBox[GridBox[{
+      {
+       RowBox[{
+        RowBox[{
+         RowBox[{"Cos", "[", "\[Chi]", "]"}], " ", 
+         RowBox[{"Cos", "[", 
+          RowBox[{"t", " ", "\[Omega]"}], "]"}], " ", 
+         SubscriptBox["a", "X"]}], "+", 
+        RowBox[{
+         RowBox[{"Cos", "[", "\[Chi]", "]"}], " ", 
+         RowBox[{"Sin", "[", 
+          RowBox[{"t", " ", "\[Omega]"}], "]"}], " ", 
+         SubscriptBox["a", "Y"]}], "-", 
+        RowBox[{
+         RowBox[{"Sin", "[", "\[Chi]", "]"}], " ", 
+         SubscriptBox["a", "Z"]}]}]},
+      {
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", 
+          RowBox[{"Sin", "[", 
+           RowBox[{"t", " ", "\[Omega]"}], "]"}]}], " ", 
+         SubscriptBox["a", "X"]}], "+", 
+        RowBox[{
+         RowBox[{"Cos", "[", 
+          RowBox[{"t", " ", "\[Omega]"}], "]"}], " ", 
+         SubscriptBox["a", "Y"]}]}]},
+      {
+       RowBox[{
+        RowBox[{
+         RowBox[{"Cos", "[", 
+          RowBox[{"t", " ", "\[Omega]"}], "]"}], " ", 
+         RowBox[{"Sin", "[", "\[Chi]", "]"}], " ", 
+         SubscriptBox["a", "X"]}], "+", 
+        RowBox[{
+         RowBox[{"Sin", "[", "\[Chi]", "]"}], " ", 
+         RowBox[{"Sin", "[", 
+          RowBox[{"t", " ", "\[Omega]"}], "]"}], " ", 
+         SubscriptBox["a", "Y"]}], "+", 
+        RowBox[{
+         RowBox[{"Cos", "[", "\[Chi]", "]"}], " ", 
+         SubscriptBox["a", "Z"]}]}]}
+     },
+     GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+     GridBoxSpacings->{"Columns" -> {
+         Offset[0.27999999999999997`], {
+          Offset[0.5599999999999999]}, 
+         Offset[0.27999999999999997`]}, "Rows" -> {
+         Offset[0.2], {
+          Offset[0.4]}, 
+         Offset[0.2]}}],
+    Column], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{{3.8629188581384597`*^9, 3.8629188620994062`*^9}, 
+   3.862918918840831*^9, 3.8629189862214017`*^9, 3.862999051159092*^9, 
+   3.863518183115353*^9},
+ CellLabel->
+  "Out[4]//MatrixForm=",ExpressionUUID->"811b3254-55b7-4dbf-afa6-\
+b2a25ccd139d"]
+}, Open  ]],
+
+Cell["\<\
+This does in fact correctly reproduce the system of equations (Eq. [12] of \
+reference [1]) for each component of the \[OpenCurlyDoubleQuote]lab vector\
+\[CloseCurlyDoubleQuote] in terms of the celestial vector\[CloseCurlyQuote]s \
+components.\
+\>", "Text",
+ CellChangeTimes->{{3.8629193773664246`*^9, 3.8629194600020213`*^9}, {
+  3.862919974127722*^9, 3.862919976879565*^9}, {3.862939006233994*^9, 
+  3.862939013082595*^9}},ExpressionUUID->"f9b913cd-ee41-4a46-8c7f-\
+6a1aad0288fb"],
+
+Cell["\<\
+Next, we see if we can correctly reproduce Eq. [14] of reference [2]. Eq. \
+[14] is the equation for Xi, which is a term that violates CPT symmetry. Once \
+again in the context of neutral meson oscillations, Xi is a term that is the \
+ratio of the difference between the diagonal elements of the 2x2 effective \
+Hamiltonian describing the time-evolution of the two-meson system to the \
+difference of the two eigenvalues of the governing Hamiltonian. Essentially, \
+we need the following pieces of information:\
+\>", "Text",
+ CellChangeTimes->{{3.862939017883253*^9, 3.86293905749325*^9}, {
+  3.862939098414401*^9, 
+  3.8629392081686897`*^9}},ExpressionUUID->"feb04fd5-abd2-4bcf-a3b7-\
+77a2caa05540"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"TraditionalForm", "[", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     SubscriptBox["\[CapitalLambda]", "11"], "-", 
+     SubscriptBox["\[CapitalLambda]", "22"]}], ")"}], "/", 
+   RowBox[{"(", 
+    RowBox[{
+     SubscriptBox["\[Lambda]", "a"], "-", 
+     SubscriptBox["\[Lambda]", "b"]}], ")"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.862939210999107*^9, 3.862939295761439*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"880cc14a-8506-4145-868a-85679da4bb09"],
+
+Cell[BoxData[
+ FormBox[
+  FractionBox[
+   RowBox[{
+    SubscriptBox["\[CapitalLambda]", "11"], "-", 
+    SubscriptBox["\[CapitalLambda]", "22"]}], 
+   RowBox[{
+    SubscriptBox["\[Lambda]", "a"], "-", 
+    SubscriptBox["\[Lambda]", "b"]}]], TraditionalForm]], "Output",
+ CellChangeTimes->{
+  3.8629392548191614`*^9, {3.862939291442666*^9, 3.8629392964613686`*^9}, 
+   3.8629990512061443`*^9, 3.8635181831495047`*^9},
+ CellLabel->
+  "Out[5]//TraditionalForm=",ExpressionUUID->"abe573ca-6274-4e6e-9c89-\
+9f49b9ca38f7"]
+}, Open  ]],
+
+Cell["\<\
+The off diagonal terms are approximately equal to the contraction of the \
+four-velocity of the meson state with a 4-vector containing CPT- and \
+Lorentz-violating coupling constants for the two valence quarks in the mesons \
+[1, 2]\
+\>", "Text",
+ CellChangeTimes->{{3.862939315597803*^9, 3.862939340543153*^9}, {
+  3.8629393906177793`*^9, 3.8629394570397825`*^9}, {3.862939735266756*^9, 
+  3.8629397355343866`*^9}},ExpressionUUID->"ca57e496-1d1a-47d5-ad20-\
+7429ee4b5664"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Meson3VelocityInLabFrame", "=", 
+   RowBox[{"\[Beta]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Sin", "[", "\[Theta]", "]"}], 
+       RowBox[{"Cos", "[", "\[Phi]", "]"}]}], ",", 
+      RowBox[{
+       RowBox[{"Sin", "[", "\[Theta]", "]"}], 
+       RowBox[{"Sin", "[", "\[Phi]", "]"}]}], ",", 
+      RowBox[{"Cos", "[", "\[Theta]", "]"}]}], "}"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Meson4VectorInLabFrame", "=", 
+   RowBox[{"\[Gamma]", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", 
+      RowBox[{"\[Beta]", " ", 
+       RowBox[{"Sin", "[", "\[Theta]", "]"}], 
+       RowBox[{"Cos", "[", "\[Phi]", "]"}]}], ",", 
+      RowBox[{"\[Beta]", " ", 
+       RowBox[{"Sin", "[", "\[Theta]", "]"}], 
+       RowBox[{"Sin", "[", "\[Phi]", "]"}]}], ",", 
+      RowBox[{"\[Beta]", " ", 
+       RowBox[{"Cos", "[", "\[Theta]", "]"}]}]}], "}"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Meson3VelocityInSiderealFrame", "=", 
+   RowBox[{
+   "RotationMatrixFromLabToEquatorial", ".", "Meson3VelocityInLabFrame"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Meson4VelocityInSiderealFrame", "=", 
+   RowBox[{"\[Gamma]", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", 
+      RowBox[{"Meson3VelocityInSiderealFrame", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], ",", 
+      RowBox[{"Meson3VelocityInSiderealFrame", "[", 
+       RowBox[{"[", "2", "]"}], "]"}], ",", 
+      RowBox[{"Meson3VelocityInSiderealFrame", "[", 
+       RowBox[{"[", "3", "]"}], "]"}]}], "}"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8629199776813917`*^9, 3.8629200475497236`*^9}, 
+   3.8629210428404164`*^9, {3.8629211095852747`*^9, 3.8629212094580727`*^9}, {
+   3.862921545960506*^9, 3.8629216987618985`*^9}, {3.8629217392457905`*^9, 
+   3.8629217400781994`*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"6ac58184-8ae5-45e9-a55c-cfa67617fa3b"],
+
+Cell["\<\
+Defining a general 4-vector that contains the LV coupling terms:\
+\>", "Text",
+ CellChangeTimes->{{3.8629397521644855`*^9, 
+  3.8629397693280582`*^9}},ExpressionUUID->"1ebe91b7-cc63-4299-8bfc-\
+869b458dc8ec"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[EmptyUpTriangle]a", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     SubscriptBox["a", "0"], ",", 
+     SubscriptBox["a", "X"], ",", 
+     SubscriptBox["a", "Y"], ",", 
+     SubscriptBox["a", "Z"]}], "}"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.862920423039903*^9, 3.862920487689149*^9}, {
+  3.8629217565733786`*^9, 3.862921761460455*^9}, {3.8629388275352263`*^9, 
+  3.8629388311089067`*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"47156394-8145-415d-8d72-1383af4f2ecf"],
+
+Cell["\<\
+Performing the contraction of the four-velocity with the LV 4-vector...\
+\>", "Text",
+ CellChangeTimes->{{3.8629397447520013`*^9, 
+  3.8629397807859535`*^9}},ExpressionUUID->"37fb8cb3-cf1a-48f8-8329-\
+3656a8ee6886"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[EmptyUpTriangle]\[CapitalLambda]", "=", 
+   RowBox[{"Meson4VelocityInSiderealFrame", ".", "\[EmptyUpTriangle]a"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.86292063617002*^9, 3.8629207341847*^9}, 
+   3.86292114665625*^9, 3.8629215664148383`*^9, 3.8629217037425795`*^9, 
+   3.8629397839227448`*^9},
+ CellLabel->"In[11]:=",ExpressionUUID->"1f446af8-6479-4208-97b8-2c1f11e21d54"],
+
+Cell["And the result of the calculation is:", "Text",
+ CellChangeTimes->{{3.8629397871375856`*^9, 
+  3.862939792358817*^9}},ExpressionUUID->"66237e58-37a0-4cdc-aa73-\
+63b5b00dfa00"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[Xi]", "=", 
+   RowBox[{
+   "\[EmptyUpTriangle]\[CapitalLambda]", "/", 
+    "\[EmptyUpTriangle]\[Lambda]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"\[Xi]", "//", "FullSimplify"}]}], "Input",
+ CellChangeTimes->{{3.862920877672922*^9, 3.862920895935899*^9}, {
+  3.862921712075506*^9, 3.862921716368141*^9}, {3.862921856119446*^9, 
+  3.862921857390462*^9}},
+ CellLabel->"In[12]:=",ExpressionUUID->"5d21eef3-cb8c-400a-be23-ddef97752e7e"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "\[EmptyUpTriangle]\[Lambda]"], 
+  RowBox[{"\[Gamma]", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     SubscriptBox["a", "0"], "+", 
+     RowBox[{"\[Beta]", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Cos", "[", 
+             RowBox[{"t", " ", "\[Omega]"}], "]"}], " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", 
+               RowBox[{"Cos", "[", "\[Chi]", "]"}], " ", 
+               RowBox[{"Sin", "[", "\[Theta]", "]"}]}], "+", 
+              RowBox[{
+               RowBox[{"Cos", "[", "\[Theta]", "]"}], " ", 
+               RowBox[{"Sin", "[", "\[Chi]", "]"}]}]}], ")"}]}], "-", 
+           RowBox[{
+            RowBox[{"Sin", "[", "\[Theta]", "]"}], " ", 
+            RowBox[{"Sin", "[", "\[Phi]", "]"}], " ", 
+            RowBox[{"Sin", "[", 
+             RowBox[{"t", " ", "\[Omega]"}], "]"}]}]}], ")"}], " ", 
+         SubscriptBox["a", "X"]}], "+", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Cos", "[", 
+             RowBox[{"t", " ", "\[Omega]"}], "]"}], " ", 
+            RowBox[{"Sin", "[", "\[Theta]", "]"}], " ", 
+            RowBox[{"Sin", "[", "\[Phi]", "]"}]}], "+", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", 
+               RowBox[{"Cos", "[", "\[Chi]", "]"}], " ", 
+               RowBox[{"Sin", "[", "\[Theta]", "]"}]}], "+", 
+              RowBox[{
+               RowBox[{"Cos", "[", "\[Theta]", "]"}], " ", 
+               RowBox[{"Sin", "[", "\[Chi]", "]"}]}]}], ")"}], " ", 
+            RowBox[{"Sin", "[", 
+             RowBox[{"t", " ", "\[Omega]"}], "]"}]}]}], ")"}], " ", 
+         SubscriptBox["a", "Y"]}], "+", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Cos", "[", "\[Theta]", "]"}], " ", 
+            RowBox[{"Cos", "[", "\[Chi]", "]"}]}], "-", 
+           RowBox[{
+            RowBox[{"Cos", "[", "\[Phi]", "]"}], " ", 
+            RowBox[{"Sin", "[", "\[Theta]", "]"}], " ", 
+            RowBox[{"Sin", "[", "\[Chi]", "]"}]}]}], ")"}], " ", 
+         SubscriptBox["a", "Z"]}]}], ")"}]}]}], ")"}]}]}]], "Output",
+ CellChangeTimes->{
+  3.8629208968219476`*^9, {3.862921708886716*^9, 3.86292174563542*^9}, 
+   3.862921803089609*^9, 3.862921862440308*^9, 3.8629388418254843`*^9, 
+   3.862999056498892*^9, 3.8635181886678796`*^9},
+ CellLabel->"Out[13]=",ExpressionUUID->"3cab0ffe-349a-452a-a7f0-97aca83e24d4"]
+}, Open  ]],
+
+Cell["Verifying all the terms are in fact there:", "Text",
+ CellChangeTimes->{{3.8629389914551477`*^9, 
+  3.862938995765273*^9}},ExpressionUUID->"050053c0-9b39-40b6-9c54-\
+d876fe08ffcb"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"TraditionalForm", "[", "\[Xi]", "]"}]], "Input",
+ CellChangeTimes->{{3.8629402654095383`*^9, 3.8629402827565646`*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"2f7c8fcb-b804-4a79-bd09-130369e64d3a"],
+
+Cell[BoxData[
+ FormBox[
+  RowBox[{
+   FractionBox["1", "\[EmptyUpTriangle]\[Lambda]"], 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      SubscriptBox["a", "0"], " ", "\[Gamma]"}], "+", 
+     RowBox[{"\[Gamma]", " ", 
+      SubscriptBox["a", "X"], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"\[Beta]", " ", 
+         RowBox[{"cos", "(", "\[Theta]", ")"}], " ", 
+         RowBox[{"sin", "(", "\[Chi]", ")"}], " ", 
+         RowBox[{"cos", "(", 
+          RowBox[{"t", " ", "\[Omega]"}], ")"}]}], "+", 
+        RowBox[{"\[Beta]", " ", 
+         RowBox[{"sin", "(", "\[Theta]", ")"}], " ", 
+         RowBox[{"cos", "(", "\[Chi]", ")"}], " ", 
+         RowBox[{"cos", "(", "\[Phi]", ")"}], " ", 
+         RowBox[{"cos", "(", 
+          RowBox[{"t", " ", "\[Omega]"}], ")"}]}], "-", 
+        RowBox[{"\[Beta]", " ", 
+         RowBox[{"sin", "(", "\[Theta]", ")"}], " ", 
+         RowBox[{"sin", "(", "\[Phi]", ")"}], " ", 
+         RowBox[{"sin", "(", 
+          RowBox[{"t", " ", "\[Omega]"}], ")"}]}]}], ")"}]}], "+", 
+     RowBox[{"\[Gamma]", " ", 
+      SubscriptBox["a", "Y"], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"\[Beta]", " ", 
+         RowBox[{"cos", "(", "\[Theta]", ")"}], " ", 
+         RowBox[{"sin", "(", "\[Chi]", ")"}], " ", 
+         RowBox[{"sin", "(", 
+          RowBox[{"t", " ", "\[Omega]"}], ")"}]}], "+", 
+        RowBox[{"\[Beta]", " ", 
+         RowBox[{"sin", "(", "\[Theta]", ")"}], " ", 
+         RowBox[{"cos", "(", "\[Chi]", ")"}], " ", 
+         RowBox[{"cos", "(", "\[Phi]", ")"}], " ", 
+         RowBox[{"sin", "(", 
+          RowBox[{"t", " ", "\[Omega]"}], ")"}]}], "+", 
+        RowBox[{"\[Beta]", " ", 
+         RowBox[{"sin", "(", "\[Theta]", ")"}], " ", 
+         RowBox[{"sin", "(", "\[Phi]", ")"}], " ", 
+         RowBox[{"cos", "(", 
+          RowBox[{"t", " ", "\[Omega]"}], ")"}]}]}], ")"}]}], "+", 
+     RowBox[{"\[Gamma]", " ", 
+      SubscriptBox["a", "Z"], " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"\[Beta]", " ", 
+         RowBox[{"cos", "(", "\[Theta]", ")"}], " ", 
+         RowBox[{"cos", "(", "\[Chi]", ")"}]}], "-", 
+        RowBox[{"\[Beta]", " ", 
+         RowBox[{"sin", "(", "\[Theta]", ")"}], " ", 
+         RowBox[{"sin", "(", "\[Chi]", ")"}], " ", 
+         RowBox[{"cos", "(", "\[Phi]", ")"}]}]}], ")"}]}]}], ")"}]}], 
+  TraditionalForm]], "Output",
+ CellChangeTimes->{
+  3.8629389082042217`*^9, {3.8629402744530153`*^9, 3.862940283457816*^9}, 
+   3.8629990566222496`*^9, 3.863518188759593*^9},
+ CellLabel->
+  "Out[14]//TraditionalForm=",ExpressionUUID->"cdd7e432-1465-45c5-aca0-\
+2e9db2179244"]
+}, Open  ]],
+
+Cell["\<\
+Even though it doesn\[CloseCurlyQuote]t look like it, this expression above \
+includes the same terms as those that are present in Eq. [14] in reference \
+[2].\
+\>", "Text",
+ CellChangeTimes->{{3.8629397079945736`*^9, 3.862939730773575*^9}, {
+  3.8629991721711845`*^9, 
+  3.862999173259942*^9}},ExpressionUUID->"1305c383-6956-44a4-bd6c-\
+756687b33a87"],
+
+Cell[TextData[StyleBox["References", "Subsection"]], "Text",
+ CellChangeTimes->{{3.862919064972596*^9, 
+  3.862919069941115*^9}},ExpressionUUID->"59535dc7-a6d8-407f-98f9-\
+a1e392eca233"],
+
+Cell["\<\
+[1] V.A. Kosteleck\[YAcute], Phys. Rev. D 61, 016002 (2000) \
+(https://journals.aps.org/prd/pdf/10.1103/PhysRevD.61.016002)
+[2] V.A. Kosteleck\[YAcute], Phys. Rev. D 64, 076001 (2001) \
+(https://journals.aps.org/prd/abstract/10.1103/PhysRevD.64.076001)\
+\>", "Text",
+ CellChangeTimes->{{3.862919076354823*^9, 3.8629190823511577`*^9}, {
+  3.8629193547658234`*^9, 3.8629193728595214`*^9}, {3.862939469311537*^9, 
+  3.862939483148242*^9}, {3.862939649627577*^9, 3.862939673676091*^9}, {
+  3.862945298447277*^9, 
+  3.862945305166026*^9}},ExpressionUUID->"b2f634d0-a579-454f-a805-\
+151265da7c33"]
+},
+WindowSize->{1093.8, 604.8},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"12.1 for Microsoft Windows (64-bit) (June 19, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"65b43f3f-bec0-4a27-9160-d5887d2fd217"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 224, 4, 41, "Text",ExpressionUUID->"8a3b7211-11c9-41b7-9fa0-1ae4d659645b"],
+Cell[785, 26, 1134, 18, 150, "Text",ExpressionUUID->"0b20dcec-4be6-4377-b4ef-7bb644ee4377"],
+Cell[1922, 46, 1908, 52, 88, "Input",ExpressionUUID->"c9c562e5-213b-4644-a788-0c273c7c6f9e"],
+Cell[3833, 100, 315, 6, 28, "Input",ExpressionUUID->"8bea8af6-b537-4884-87ef-51c6dcddc842"],
+Cell[4151, 108, 505, 9, 58, "Text",ExpressionUUID->"1ebc33de-601d-4df2-8cd8-6cc64ecafd8d"],
+Cell[CellGroupData[{
+Cell[4681, 121, 328, 6, 28, "Input",ExpressionUUID->"1594eff8-831d-47da-b545-c71713b1c4bf"],
+Cell[5012, 129, 2135, 62, 80, "Output",ExpressionUUID->"811b3254-55b7-4dbf-afa6-b2a25ccd139d"]
+}, Open  ]],
+Cell[7162, 194, 492, 9, 58, "Text",ExpressionUUID->"f9b913cd-ee41-4a46-8c7f-6a1aad0288fb"],
+Cell[7657, 205, 710, 12, 104, "Text",ExpressionUUID->"feb04fd5-abd2-4bcf-a3b7-77a2caa05540"],
+Cell[CellGroupData[{
+Cell[8392, 221, 481, 12, 28, "Input",ExpressionUUID->"880cc14a-8506-4145-868a-85679da4bb09"],
+Cell[8876, 235, 516, 14, 64, "Output",ExpressionUUID->"abe573ca-6274-4e6e-9c89-9f49b9ca38f7"]
+}, Open  ]],
+Cell[9407, 252, 483, 9, 58, "Text",ExpressionUUID->"ca57e496-1d1a-47d5-ad20-7429ee4b5664"],
+Cell[9893, 263, 1905, 48, 107, "Input",ExpressionUUID->"6ac58184-8ae5-45e9-a55c-cfa67617fa3b"],
+Cell[11801, 313, 218, 5, 35, "Text",ExpressionUUID->"1ebe91b7-cc63-4299-8bfc-869b458dc8ec"],
+Cell[12022, 320, 503, 12, 28, "Input",ExpressionUUID->"47156394-8145-415d-8d72-1383af4f2ecf"],
+Cell[12528, 334, 225, 5, 35, "Text",ExpressionUUID->"37fb8cb3-cf1a-48f8-8329-3656a8ee6886"],
+Cell[12756, 341, 416, 8, 28, "Input",ExpressionUUID->"1f446af8-6479-4208-97b8-2c1f11e21d54"],
+Cell[13175, 351, 181, 3, 35, "Text",ExpressionUUID->"66237e58-37a0-4cdc-aa73-63b5b00dfa00"],
+Cell[CellGroupData[{
+Cell[13381, 358, 474, 10, 49, "Input",ExpressionUUID->"5d21eef3-cb8c-400a-be23-ddef97752e7e"],
+Cell[13858, 370, 2684, 67, 69, "Output",ExpressionUUID->"3cab0ffe-349a-452a-a7f0-97aca83e24d4"]
+}, Open  ]],
+Cell[16557, 440, 186, 3, 35, "Text",ExpressionUUID->"050053c0-9b39-40b6-9c54-d876fe08ffcb"],
+Cell[CellGroupData[{
+Cell[16768, 447, 221, 3, 28, "Input",ExpressionUUID->"2f7c8fcb-b804-4a79-bd09-130369e64d3a"],
+Cell[16992, 452, 2605, 65, 83, "Output",ExpressionUUID->"cdd7e432-1465-45c5-aca0-2e9db2179244"]
+}, Open  ]],
+Cell[19612, 520, 362, 8, 35, "Text",ExpressionUUID->"1305c383-6956-44a4-bd6c-756687b33a87"],
+Cell[19977, 530, 186, 3, 41, "Text",ExpressionUUID->"59535dc7-a6d8-407f-98f9-a1e392eca233"],
+Cell[20166, 535, 601, 11, 58, "Text",ExpressionUUID->"b2f634d0-a579-454f-a805-151265da7c33"]
+}
+]
+*)
+
